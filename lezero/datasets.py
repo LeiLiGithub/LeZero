@@ -82,8 +82,9 @@ class MNIST(Dataset):
     def prepare(self):
         # 网络连接403错误，改用本地数据
         # url = 'http://yann.lecun.com/exdb/mnist/'
-        path = os.getcwd()
-        localfolder = os.path.join(os.path.dirname(path), 'mnist_dataset')
+
+        local_folder = os.path.join(os.path.dirname(__file__), '../mnist_dataset')
+
         train_files = {'target': 'train-images-idx3-ubyte.gz',
                        'label': 'train-labels-idx1-ubyte.gz'}
         test_files = {'target': 't10k-images-idx3-ubyte.gz',
@@ -92,8 +93,8 @@ class MNIST(Dataset):
         files = train_files if self.train else test_files
         # data_path = get_file(url + files['target'])
         # label_path = get_file(url + files['label'])
-        data_path = os.path.join(localfolder, files['target'])
-        label_path = os.path.join(localfolder, files['label'])
+        data_path = os.path.join(local_folder, files['target'])
+        label_path = os.path.join(local_folder, files['label'])
 
         self.data = self._load_data(data_path)
         self.label = self._load_label(label_path)

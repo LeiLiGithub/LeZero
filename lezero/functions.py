@@ -289,24 +289,61 @@ def accuracy(y, t):
 
     return Variable(as_array(acc))
 
+class Softmax(Function):
+    def __init__(self, axis=1):
+        self.axis = axis
+
+    def forward(self, x):
+        xp = np
+        y = x - x.max(axis=self.axis, keepdims=True)
+        y = xp.exp(y)
+        y /= y.sum(axis=self.axis, keepdims=True)
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()
+        gx = y * gy
+        sumdx = gx.sum(axis=self.axis, keepdims=True)
+        gx -= y * sumdx
+        return gx
+
 class SoftmaxWithLoss(Function):
-    def __init__(self):
-        self.loss = None
-        self.y = None
-        self.t = None
+    # def __init__(self):
+    #     self.loss = None
+    #     self.y = None
+    #     self.t = None
 
     def forward(self, x, t):
-        self.t = t
-        self.y = softmax(x)
-        self.loss = cross_entropy_error_one_hot(self.y, self.t)
-        # self.loss = cross_entropy_error(self.y, self.t)
-        return self.loss
+        # self.t = t
+        # self.y = softmax(x)
+        # self.loss = cross_entropy_error_one_hot(self.y, self.t)
+        # # self.loss = cross_entropy_error(self.y, self.t)
+        # return self.loss
+        N = x.shape[0]
+        log_z = utils.logsumexp(x, axis=1)
+        log_p = x - log_z
+        # print('log_p', log_p)
+        # print('N=', N, 't=', t)
+        # raise Exception
+        log_p = log_p[np.arange(N), t.ravel()]
+        y = -log_p.sum() / np.float32(N)
+        return y
+        
 
-    def backward(self, dout=1):
-        batch_size = self.t.shape[0]
-        dx = (self.y - self.t) / batch_size
+    # def backward(self, dout=1):
+    #     batch_size = self.t.shape[0]
+    #     dx = (self.y - self.t) / batch_size
+    #     return dx
 
-        return dx
+    def backward(self, gy):
+        x, t = self.inputs
+        N, CLS_NUM = x.shape
+        gy *= 1/N
+        y = softmax(x)
+        # to one-hot
+        t_onehot = np.eye(CLS_NUM, dtype=t.dtype)[t.data]
+        y = (y - t_onehot) * gy
+        return y
 
 def softmax_with_loss(y, t):
     return SoftmaxWithLoss()(y, t)
@@ -332,9 +369,5 @@ def cross_entropy_error(y, t):
     batch_size = y.shape[0]
     return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
 
-def softmax(x):
-    c = np.max(x)
-    exp_x = np.exp(x - c)
-    sum_exp_x = np.sum(exp_x)
-    y = exp_x / sum_exp_x
-    return y
+def softmax(x, axis=1):
+    return Softmax(axis)(x)

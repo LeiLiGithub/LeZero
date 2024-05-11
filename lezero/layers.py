@@ -42,7 +42,9 @@ class Layer:
         for param in self.params():
             param.cleargrad()
 
+# 线性关系
 class Linear(Layer):
+    
     def __init__(self, out_size, nobias=False, dtype=np.float32, in_size=None):
         super().__init__()
         self.in_size = in_size
@@ -71,5 +73,3 @@ class Linear(Layer):
 
         y = F.linear(x, self.W, self.b) # 调用functions.linear
         return y
-
-

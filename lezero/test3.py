@@ -32,18 +32,19 @@ optimizer = optimizers.SGD().setup(model)
 for epoch in range(max_epoch):
     sum_loss, sum_acc = 0, 0
 
-    for x, t in train_loader:
-        labelT = t
+    # 训练
+    for x, t in train_loader: # t是label
+        # labelT = t
         y = model(x)
         # print('y', y.shape, '=', y)
 
-        t = np.eye(10)[t] # one-hot
+        # t = np.eye(10)[t] # one-hot
         # print('t', t.shape, '=', t)
 
         loss = F.softmax_with_loss(y, t)
         # print("loss=", loss)
 
-        acc = F.accuracy(y, labelT)
+        acc = F.accuracy(y, t)
         # print('acc=', acc)
 
         model.cleargrads()
@@ -57,16 +58,15 @@ for epoch in range(max_epoch):
     print('train loss： {:.4f}, accuracy: {:.4f}'.format(
         sum_loss / len(train_set), sum_acc / len(train_set)))
 
+    # 推理
     sum_loss, sum_acc = 0, 0
     with lezero.no_grad():
         for x, t in test_loader:
-            labelT = t
             y = model(x)
-            t = np.eye(10)[t] # one-hot
             loss = F.softmax_with_loss(y, t)
-            acc = F.accuracy(y, labelT)
+            acc = F.accuracy(y, t)
             sum_loss += float(loss.data) * len(t)
             sum_acc += float(acc.data) * len(t)
 
     print('test loss: {:.4f}, accuracy: {:.4f}'.format(
-        sum_loss / len(train_set), sum_acc / len(test_set)))
+        sum_loss / len(test_set), sum_acc / len(test_set)))
