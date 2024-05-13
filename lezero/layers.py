@@ -41,6 +41,36 @@ class Layer:
     def cleargrads(self):
         for param in self.params():
             param.cleargrad()
+        
+    # 生成 String-Parameter摊平集合
+    def _flatten_params(self, params_dict, parent_key=""):
+        for name in self._params:
+            obj = self.__dict__[name]
+            key = (parent_key + '/' + name) if parent_key else name
+
+            if isinstance(obj, Layer):
+                obj._flatten_params(params_dict, key)
+            else:
+                params_dict[key] = obj
+
+    def save_weights(self, path):
+        params_dict = {}
+        self._flatten_params(params_dict)
+        array_dict = {key: param.data for key, param in params_dict.items()
+                      if param is not None}
+        try:
+            np.savez_compressed(path, **array_dict)
+        except (Exception, KeyboardInterrupt) as e: # 保存失败（如Ctrl+C）则删除
+            if os.path.exists(path):
+                os.remove(path)
+            raise
+
+    def load_weights(self, path):
+        npz = np.load(path)
+        params_dict = {}
+        self._flatten_params(params_dict)
+        for key, param in params_dict.items(): # key-String, param-Variable
+            param.data = npz[key]
 
 # 线性关系
 class Linear(Layer):
