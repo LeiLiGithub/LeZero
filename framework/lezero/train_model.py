@@ -8,7 +8,7 @@ from lezero import functions as F
 
 # 将数据以文本形式打印在控制台
 def print_data_in_console():
-    input_data, label = load_one_data(416)
+    input_data, label = load_one_data(1024)
     print("input_data.shape=", input_data.shape, 'label=', label)
     for i in range(0,28):
         for j in range(0,28):
@@ -20,8 +20,16 @@ def print_data_in_console():
 def load_one_data(data_idx):
     train_set = D.MNIST(train=True)
     # 0-数据，1-标签
-    input_data = train_set.data[data_idx][0].reshape(1, -1)
-    return input_data, train_set.label[data_idx]
+    # input_data = train_set.data[data_idx][0].reshape(1, -1)
+    # return input_data, train_set.label[data_idx]
+    input_data = train_set.data[data_idx][0]
+    print("input_data:", input_data.shape)
+    for i in input_data:
+        for j in i:
+            has_dot = '*' if j > 0 else ' '
+            print(has_dot, end="")
+        print("")
+
     
 def run_train_infer():
     print('run_train_infer...')
@@ -112,4 +120,5 @@ def run_train_infer():
     label_data = train_set.label[input_idx]
     print('label=', label_data)
 
-run_train_infer()
+# print_data_in_console()
+load_one_data(1)

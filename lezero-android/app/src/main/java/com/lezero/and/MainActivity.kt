@@ -27,10 +27,11 @@ class MainActivity: AppCompatActivity() {
         }
         mBtnGetData = findViewById<Button>(R.id.btn_2).apply {
             setOnClickListener {
-//                val inputArray = mDoodleView.getData(28, 28)
-//                mPyModule.callAttr("read_user_input", inputArray)
+                val inputArray = mDoodleView.getData(28, 28)
+                val result = mPyModule.callAttr("infer_user_input", inputArray).toInt()
+                Toast.makeText(this@MainActivity, "result=$result", Toast.LENGTH_SHORT).show()
 //                mPyModule.callAttr("run_train_infer", inputArray)
-                testPy2()
+//                testPy2()
             }
         }
     }

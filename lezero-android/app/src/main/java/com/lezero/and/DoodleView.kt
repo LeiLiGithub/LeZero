@@ -8,15 +8,18 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import java.lang.StringBuilder
 import kotlin.random.Random
 
 /**
  * 涂鸦View，可生成Bitmap
  */
 class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
-    private lateinit var bitmap: Bitmap
+    private val TAG = "DoodleView"
+
     private val paint = Paint()
     private val path = Path()
 
@@ -26,7 +29,7 @@ class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
 
         // 画笔色
         paint.color = Color.WHITE
-        paint.strokeWidth = 30f
+        paint.strokeWidth = 50f
         paint.style = Paint.Style.STROKE
     }
 
@@ -80,9 +83,20 @@ class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
         // 将bitmap生成像素图
         val rand = Random(415)
         for (i in 0 until smallWidth) {
-            for (j in 0 until smallHeight) {
-                array[smallWidth * i + j] = (if (smallBitmap.getPixel(i, j) == Color.BLACK) 0 else rand.nextInt(128, 255))
+//            val sb = StringBuilder()
+            for (j in 0 until smallHeight) { // 注意getPixe入参为横纵坐标，对应的是col、row
+//                val isDot = (if (smallBitmap.getPixel(j, i) == Color.BLACK) 0 else 1)
+                val isDot = (
+                        if (smallBitmap.getPixel(j, i) == Color.BLACK)
+                            0
+                        else
+                            255
+                )
+                array[smallWidth * i + j] = isDot
+//                sb.append(if (isDot > 0) "*" else " ")
             }
+//            Log.e(TAG, sb.toString())
+//            sb.clear()
         }
     }
 
