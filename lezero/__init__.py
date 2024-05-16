@@ -1,4 +1,4 @@
-# 本module中对外开放的类与函数
+is_android = False # 编译Android App时应当开启
 
 from lezero.core import Variable
 from lezero.core import Function

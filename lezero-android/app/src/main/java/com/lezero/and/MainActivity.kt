@@ -1,0 +1,50 @@
+package com.lezero.and
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.chaquo.python.PyObject
+import com.chaquo.python.Python
+import com.chaquo.python.android.AndroidPlatform
+
+class MainActivity: AppCompatActivity() {
+    private lateinit var mBtnClear: Button
+    private lateinit var mBtnGetData: Button
+    private lateinit var mDoodleView: DoodleView
+
+    private lateinit var mPyModule: PyObject
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initPy()
+        mDoodleView = findViewById(R.id.doodle_view)
+        mBtnClear = findViewById<Button>(R.id.btn_1).apply {
+            setOnClickListener {
+                mDoodleView.clearDoodle()
+            }
+        }
+        mBtnGetData = findViewById<Button>(R.id.btn_2).apply {
+            setOnClickListener {
+//                val inputArray = mDoodleView.getData(28, 28)
+//                mPyModule.callAttr("read_user_input", inputArray)
+//                mPyModule.callAttr("run_train_infer", inputArray)
+                testPy()
+            }
+        }
+    }
+
+    private fun initPy() {
+        if (!Python.isStarted()) {
+            Python.start(AndroidPlatform(this))
+        }
+        val py = Python.getInstance()
+        mPyModule = py.getModule("test_android_env") // 文件名
+    }
+
+    private fun testPy() {
+        val result = mPyModule.callAttr("sum", 1, 2).toInt()
+        Toast.makeText(this, "result=$result", Toast.LENGTH_LONG).show()
+    }
+}

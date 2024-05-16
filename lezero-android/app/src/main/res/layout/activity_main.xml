@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.lezero.and.DoodleView
+        android:id="@+id/doodle_view"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="280dp"
+        android:layout_height="280dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="50dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="100dp"
+        android:textAllCaps="false"
+        android:text="Clear"
+        android:layout_gravity="center|bottom"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="50dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:textAllCaps="false"
+        android:text="Inference"
+        android:layout_gravity="center|bottom"/>
+
+</FrameLayout>
