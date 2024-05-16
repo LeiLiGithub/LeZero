@@ -31,6 +31,7 @@ class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
         paint.color = Color.WHITE
         paint.strokeWidth = 50f
         paint.style = Paint.Style.STROKE
+        paint.strokeCap = Paint.Cap.ROUND
     }
 
     override fun onDraw(canvas: Canvas) {
