@@ -17,7 +17,8 @@ from lezero.dataloaders import DataLoader
 
 
 from lezero.utils import get_file
-
 from lezero.transforms import Compose, Flatten, ToFloat, Normalize
+
+import numpy as np
 
 setup_variable()

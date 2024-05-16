@@ -1,29 +1,37 @@
 if '__file__' in globals():
     import os, sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import lezero
-import lezero.datasets as D
-import lezero.functions as F
-from lezero import MLP, DataLoader, optimizers
-import numpy as np
+    
+from lezero import MLP, DataLoader, optimizers, np, no_grad
+from lezero import datasets as D
+from lezero import functions as F
 
-# def f(x):
-#     x = x.flatten()
-#     x = x.astype(np.float32)
-#     x /= 255.0
-#     return x
+# 将数据以文本形式打印在控制台
+def print_data_in_console():
+    input_data, label = load_one_data(416)
+    print("input_data.shape=", input_data.shape, 'label=', label)
+    for i in range(0,28):
+        for j in range(0,28):
+            has_dot = '*' if input_data[0][i*28+j] > 0 else ' '
+            print(has_dot, end="")
+        print("")
 
-# train_set = D.MNIST(train=True, transform=f)
-# test_set = D.MNIST(train=False, transform=f)
-
-
+# 从train_set中读取单条数据&标签，并格式化为(1,784)大小
+def load_one_data(data_idx):
+    train_set = D.MNIST(train=True)
+    # 0-数据，1-标签
+    input_data = train_set.data[data_idx][0].reshape(1, -1)
+    return input_data, train_set.label[data_idx]
+    
 def run_train_infer():
+    print('run_train_infer...')
 
-    model_file = 'mlp_v1.npz'
+    model_file = os.path.join(os.path.dirname(__file__), '..', 'mlp_v2.npz')
+    
     skip_train = 0
 
-    max_epoch = 5
-    batch_size = 100
+    max_epoch = 20
+    batch_size = 50
     hidden_size = 1000
 
     train_set = D.MNIST(train=True)
@@ -71,7 +79,7 @@ def run_train_infer():
 
             # 推理
             sum_loss, sum_acc = 0, 0
-            with lezero.no_grad():
+            with no_grad():
                 for x, t in test_loader:
                     y = model(x)
                     loss = F.softmax_with_loss(y, t)
@@ -82,6 +90,7 @@ def run_train_infer():
             print('test loss: {:.4f}, accuracy: {:.4f}'.format(
                 sum_loss / len(test_set), sum_acc / len(test_set)))
 
+        # 保存模型
         model.save_weights(model_file)
 
 

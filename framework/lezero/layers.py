@@ -1,3 +1,5 @@
+is_android = False
+
 # 封装隐藏层，内部由激活函数构成
 
 if '__file__' in globals():
@@ -5,8 +7,14 @@ if '__file__' in globals():
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import weakref
 import numpy as np
-from lezero.core import Parameter
-import lezero.functions as F
+
+if is_android:
+    from core import Parameter
+    import functions as F
+else:
+    from lezero.core import Parameter
+    import lezero.functions as F
+
 
 
 class Layer:

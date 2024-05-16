@@ -24,6 +24,7 @@ android {
         python {
             pip {
                 install("numpy")
+                install("matplotlib")
             }
             buildPython("D:\\Software\\anaconda3\\python.exe")
         }
@@ -47,7 +48,7 @@ android {
 
 chaquopy {
     sourceSets.getByName("main") {
-        srcDirs = ["../../lezero"]
+        srcDirs = ["../../framework"]
     }
 }
 

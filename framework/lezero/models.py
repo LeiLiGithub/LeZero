@@ -1,11 +1,15 @@
+is_android = False
 # 封装模型对象，模型内部由多个隐藏层构成
 
 if '__file__' in globals():
     import os, sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import layers as L
-import functions as F
-from lezero import utils
+import lezero.layers as L
+import lezero.functions as F
+if is_android:
+    import utils
+else:
+    from lezero import utils
 
 class Model(L.Layer):
     def plot(self, *inputs, to_file='model.png'):

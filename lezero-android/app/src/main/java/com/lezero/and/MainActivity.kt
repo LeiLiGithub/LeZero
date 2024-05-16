@@ -30,7 +30,7 @@ class MainActivity: AppCompatActivity() {
 //                val inputArray = mDoodleView.getData(28, 28)
 //                mPyModule.callAttr("read_user_input", inputArray)
 //                mPyModule.callAttr("run_train_infer", inputArray)
-                testPy()
+                testPy2()
             }
         }
     }
@@ -40,11 +40,15 @@ class MainActivity: AppCompatActivity() {
             Python.start(AndroidPlatform(this))
         }
         val py = Python.getInstance()
-        mPyModule = py.getModule("test_android_env") // 文件名
+        mPyModule = py.getModule("lezero.inference_demo") // 文件名
     }
 
     private fun testPy() {
         val result = mPyModule.callAttr("sum", 1, 2).toInt()
         Toast.makeText(this, "result=$result", Toast.LENGTH_LONG).show()
+    }
+
+    private fun testPy2() {
+        mPyModule.callAttr("run_inference", 415)
     }
 }

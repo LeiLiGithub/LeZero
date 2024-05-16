@@ -1,5 +1,5 @@
 # This file is used to test android develop environment
-is_android = True
+is_android = False
 # is_android = False
 
 def sum(a, b):
