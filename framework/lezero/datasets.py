@@ -1,15 +1,9 @@
-is_android = False
-
 # 数据预处理
 import numpy as np
 import gzip
 import matplotlib.pyplot as plt
-if is_android:
-    from utils import get_file
-    from transforms import Compose, Flatten, ToFloat, Normalize
-else:
-    from lezero import get_file
-    from lezero import Compose, Flatten, ToFloat, Normalize
+from lezero import get_file
+from lezero import Compose, Flatten, ToFloat, Normalize
 import os
 
 class Dataset:

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
+    <FrameLayout
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:background="@color/black"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal" >
 
     <TextView
         android:id="@+id/answer_view"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/black"
-        android:textColor="#2196F3"
-        android:textSize="240sp"
+        android:layout_gravity="center"
+        android:textColor="#F6DD00"
+        android:textSize="200sp"
         android:text="8"
         android:gravity="center"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
+
+    </FrameLayout>
 
     <com.lezero.and.DoodleView
         android:id="@+id/doodle_view"
@@ -25,6 +32,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="280dp"
         android:layout_height="280dp"
+        tools:visibility="gone"
         />
 
     <androidx.appcompat.widget.AppCompatButton

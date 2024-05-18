@@ -1,4 +1,3 @@
-is_android = False
 # 数据变换预处理
 
 import numpy as np
@@ -7,10 +6,7 @@ try:
 except ImportError:
     from PIL import Image
 
-if is_android:
-    from utils import pair
-else:
-    from lezero.utils import pair
+from lezero.utils import pair
 
 
 class Compose:

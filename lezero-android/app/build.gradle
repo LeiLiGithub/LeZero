@@ -17,15 +17,18 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        // 因为chaqopy是基于JNI实现，必须声明ndk
         ndk {
             abiFilters "arm64-v8a"
         }
 
+        // 需要安装的三方库
         python {
             pip {
                 install("numpy")
                 install("matplotlib")
             }
+            // 本机python可执行路径
             buildPython("D:\\Software\\anaconda3\\python.exe")
         }
     }
@@ -46,6 +49,7 @@ android {
 }
 
 
+// Python根目录，其下的全部.py文件会被作为JNI进行编译，其它类型文件则在安装后保存在应用files目录下。注意这个目录不可以是本Android项目的父目录，会导致gradle构建失败
 chaquopy {
     sourceSets.getByName("main") {
         srcDirs = ["../../framework"]

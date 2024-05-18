@@ -20,15 +20,15 @@ def print_data_in_console():
 def load_one_data(data_idx):
     train_set = D.MNIST(train=True)
     # 0-数据，1-标签
-    # input_data = train_set.data[data_idx][0].reshape(1, -1)
-    # return input_data, train_set.label[data_idx]
-    input_data = train_set.data[data_idx][0]
-    print("input_data:", input_data.shape)
-    for i in input_data:
-        for j in i:
-            has_dot = '*' if j > 0 else ' '
-            print(has_dot, end="")
-        print("")
+    input_data = train_set.data[data_idx][0].reshape(1, -1)
+    return input_data, train_set.label[data_idx]
+    # input_data = train_set.data[data_idx][0]
+    # print("input_data:", input_data.shape)
+    # for i in input_data:
+    #     for j in i:
+    #         has_dot = '*' if j > 0 else ' '
+    #         print(has_dot, end="")
+    #     print("")
 
     
 def run_train_infer():
@@ -120,5 +120,5 @@ def run_train_infer():
     label_data = train_set.label[input_idx]
     print('label=', label_data)
 
-# print_data_in_console()
-load_one_data(1)
+print_data_in_console()
+# load_one_data(1)

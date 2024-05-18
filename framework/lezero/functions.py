@@ -1,4 +1,3 @@
-is_android = False
 # 各种变换和激活函数，用于隐藏层
 
 if '__file__' in globals():
@@ -6,16 +5,10 @@ if '__file__' in globals():
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import numpy as np
 
-if is_android:
-    from core import Function
-    from core import Variable
-    from core import as_variable, as_array
-    import utils
-else:
-    from lezero import Function
-    from lezero import Variable
-    from lezero.core import as_variable, as_array
-    from lezero import utils
+from lezero import Function
+from lezero import Variable
+from lezero.core import as_variable, as_array
+from lezero import utils
 
 class Sin(Function):
     def forward(self, x):

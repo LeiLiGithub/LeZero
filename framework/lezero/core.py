@@ -1,4 +1,3 @@
-is_android = False
 if '__file__' in globals():
     import os, sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -6,8 +5,8 @@ if '__file__' in globals():
 import numpy as np
 import weakref
 import contextlib
-if not is_android:
-    import lezero
+
+import lezero
 
 ########################
 ######## 核心类 ########

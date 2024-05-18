@@ -66,7 +66,7 @@ class MainActivity: AppCompatActivity() {
      */
     private fun showAnswer(ans: Int) {
         mAnswerView.text = "$ans"
-        for (i in 0 until 6) {
+        for (i in 0 until 4) {
             mHandler.postDelayed({
                 if (mDoodleView.visibility == View.VISIBLE) {
                     mDoodleView.visibility = View.GONE
@@ -74,10 +74,7 @@ class MainActivity: AppCompatActivity() {
                     mDoodleView.visibility = View.VISIBLE
                 }
 
-            }, i.toLong() * 1000)
+            }, i.toLong() * 500)
         }
-        mHandler.postDelayed({
-            mDoodleView.clearDoodle()
-        }, 6000)
     }
 }

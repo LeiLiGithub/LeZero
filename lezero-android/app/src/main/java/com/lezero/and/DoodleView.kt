@@ -71,7 +71,7 @@ class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
         return result
     }
 
-    // 从Bitmap生成float[], 写入到参数array中
+    // 从Bitmap生成IntArray, 写入到参数array中
     private fun fillBitmapData(rawBitmap: Bitmap, array: IntArray, smallWidth: Int, smallHeight: Int) {
         // 缩放比例
         val scaleWidth = smallWidth.toFloat() / rawBitmap.width
@@ -82,7 +82,7 @@ class DoodleView(context: Context, attrs: AttributeSet): View(context, attrs) {
         }
         val smallBitmap = Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)
         // 将bitmap生成像素图
-        val rand = Random(415)
+//        val rand = Random(415)
         for (i in 0 until smallWidth) {
 //            val sb = StringBuilder()
             for (j in 0 until smallHeight) { // 注意getPixe入参为横纵坐标，对应的是col、row

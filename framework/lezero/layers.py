@@ -1,5 +1,3 @@
-is_android = False
-
 # 封装隐藏层，内部由激活函数构成
 
 if '__file__' in globals():
@@ -8,14 +6,8 @@ if '__file__' in globals():
 import weakref
 import numpy as np
 
-if is_android:
-    from core import Parameter
-    import functions as F
-else:
-    from lezero.core import Parameter
-    import lezero.functions as F
-
-
+from lezero.core import Parameter
+import lezero.functions as F
 
 class Layer:
     def __init__(self):
