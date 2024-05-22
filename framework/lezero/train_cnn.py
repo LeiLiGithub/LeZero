@@ -45,8 +45,8 @@ def run_train_infer():
     batch_size = 50
     # hidden_size = 1000
 
-    train_set = D.MNIST(train=True)
-    test_set = D.MNIST(train=False)
+    train_set = D.MNIST(transform=None, train=True)
+    test_set = D.MNIST(transform=None, train=False)
 
     train_loader = DataLoader(train_set, batch_size)
     test_loader = DataLoader(test_set, batch_size, shuffle=False)
@@ -76,7 +76,7 @@ def run_train_infer():
                 # print("loss=", loss)
 
                 acc = F.accuracy(y, t)
-                # print('acc=', acc)
+                # print('accuracy=', acc)
 
                 model.cleargrads()
                 loss.backward()

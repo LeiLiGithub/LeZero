@@ -15,7 +15,7 @@ class Layer:
         self._params = set() # 保存所有的params
 
     def __setattr__(self, name, value):
-        if isinstance(value, (Parameter, Layer)): # Parameter、Layer 进行记录
+        if isinstance(value, (Parameter, Layer)): # 类型是两者之一则记录
             self._params.add(name)
         super().__setattr__(name, value)
 
@@ -108,6 +108,7 @@ class Linear(Layer):
 # 卷积
 class Convolution(Layer):
     def __init__(self, W, b, stride=1, pad=0):
+        super().__init__()
         self.W = W
         self.b = b
         self.stride = stride
@@ -156,6 +157,7 @@ class Convolution(Layer):
 
 class Pooling(Layer):
     def __init__(self, pool_h, pool_w, stride=1, pad=0):
+        super().__init__()
         self.pool_h = pool_h
         self.pool_w = pool_w
         self.stride = stride

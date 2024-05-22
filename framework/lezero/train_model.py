@@ -82,7 +82,7 @@ def run_train_infer():
                 sum_acc += float(acc.data) * len(t)
 
             print('epoch: {}'.format(epoch + 1))
-            print('train loss： {:.4f}, accuracy: {:.4f}'.format(
+            print('train loss: {:.4f}, accuracy: {:.4f}'.format(
                 sum_loss / len(train_set), sum_acc / len(train_set)))
 
             # 推理

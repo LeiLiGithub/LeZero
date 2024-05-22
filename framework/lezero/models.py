@@ -35,6 +35,7 @@ class MLP(Model):
 
 
 # CNN: Conv-Relu-Pool Affine-Relu Affine-Softmax
+# 类似MLP
 class SimpleConvNet(Model):
     def __init__(
         self,
@@ -44,6 +45,7 @@ class SimpleConvNet(Model):
         output_size=10,
         weight_init_std=0.01
         ):
+        super().__init__() # 初始化layer中的_params
         # 卷积层（过滤器）池化层 初始化
         filter_num = conv_param['filter_num']
         filter_size = conv_param['filter_size']
@@ -54,28 +56,40 @@ class SimpleConvNet(Model):
         pool_output_size = int(filter_num * (conv_output_size/2) * (conv_output_size/2))
 
         # 初始化权重
-        self.params = {}
-        self.params['W1'] = weight_init_std * np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
-        self.params['b1'] = np.zeros(filter_num)
-        self.params['W2'] = weight_init_std * np.random.randn(pool_output_size, hidden_size)
-        self.params['b2'] = np.zeros(hidden_size)
-        self.params['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
-        self.params['b3'] = np.zeros(output_size)
+        self.params_dict = {}
+        self.params_dict['W1'] = weight_init_std * np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
+        self.params_dict['b1'] = np.zeros(filter_num)
+        self.params_dict['W2'] = weight_init_std * np.random.randn(pool_output_size, hidden_size)
+        self.params_dict['b2'] = np.zeros(hidden_size)
+        self.params_dict['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
+        self.params_dict['b3'] = np.zeros(output_size)
 
         # 生成层
         # Conv-ReLU-Pooling-Affine-ReLU-Affine-Softmax
-        self.layers = OrderedDict()
-        self.layers['Conv1'] = Convolution(self.params['W1'], self.params['b1'], conv_param['stride'], conv_param['pad'])
-        self.layers['Relu1'] = Relu()
-        self.layers['Pool1'] = Pooling(pool_h=2, pool_w=2, stride=2)
-        self.layers['Affine1'] = Affine(self.params['W2'], self.params['b2'])
-        self.layers['Relu2'] = Relu()
-        self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
+        self.layers = []
+
+        self.Conv1 = Convolution(self.params_dict['W1'], self.params_dict['b1'], conv_param['stride'], conv_param['pad'])
+        self.layers.append(self.Conv1)
+
+        self.Relu1 = Relu()
+        self.layers.append(self.Relu1)
+
+        self.Pool1 = Pooling(pool_h=2, pool_w=2, stride=2)
+        self.layers.append(self.Pool1)
+
+        self.Affine1 = Affine(self.params_dict['W2'], self.params_dict['b2'])
+        self.layers.append(self.Affine1)
+
+        self.Relu2 = Relu()
+        self.layers.append(self.Relu2)
+
+        self.Affine2 = Affine(self.params_dict['W3'], self.params_dict['b3'])
+        self.layers.append(self.Affine2)
 
         # self.last_layer = SoftmaxWithLoss()
         
     def forward(self, x):
-        for layer in self.layers.values():
+        for layer in self.layers:
             x = layer.forward(x)
 
         return x
