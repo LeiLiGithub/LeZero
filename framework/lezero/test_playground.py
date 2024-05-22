@@ -9,3 +9,8 @@ def test_variable_sum():
     b = Variable(np.array(2))
     print(a+b)
 
+def test_enu():
+    for i,j in enumerate((10, 20)):
+        print("i", i, "j", j)
+
+test_enu()
