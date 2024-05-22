@@ -6,7 +6,10 @@ if '__file__' in globals():
 import lezero.layers as L
 import lezero.functions as F
 from lezero import utils
+import numpy as np
 from lezero.layers import Convolution, Pooling, Relu, Affine, Sigmoid
+
+from collections import OrderedDict
 
 class Model(L.Layer):
     def plot(self, *inputs, to_file='model.png'):
@@ -36,10 +39,11 @@ class SimpleConvNet(Model):
     def __init__(
         self,
         input_dim=(1,28,28),
-        conv_param={'fillter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1},
-        hidden_size=100, output_size=10, weight_init_std=0.01
+        conv_param={'filter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1},
+        hidden_size=100,
+        output_size=10,
+        weight_init_std=0.01
         ):
-
         # 卷积层（过滤器）池化层 初始化
         filter_num = conv_param['filter_num']
         filter_size = conv_param['filter_size']
@@ -47,7 +51,7 @@ class SimpleConvNet(Model):
         filter_stride = conv_param['stride']
         input_size = input_dim[1]
         conv_output_size = (input_size - filter_size + 2*filter_pad) / filter_stride + 1
-        pool_output_size = int(filter_num * (conv_output_size/2) * (conv_otuput_size/2))
+        pool_output_size = int(filter_num * (conv_output_size/2) * (conv_output_size/2))
 
         # 初始化权重
         self.params = {}
@@ -68,7 +72,7 @@ class SimpleConvNet(Model):
         self.layers['Relu2'] = Relu()
         self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
 
-        self.last_layer = SoftmaxWithLoss()
+        # self.last_layer = SoftmaxWithLoss()
         
     def forward(self, x):
         for layer in self.layers.values():
