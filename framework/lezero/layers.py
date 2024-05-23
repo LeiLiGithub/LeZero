@@ -146,7 +146,7 @@ class Convolution(Layer):
         dout = dout.transpose(0, 2, 3, 1).reshape(-1, FN)
 
         self.db = np.sum(dout, axis=0)
-        self.dW = np.dot(self.coll.T, dout)
+        self.dW = np.dot(self.col.T, dout)
         self.dW = self.dW.transpose(1, 0).reshape(FN, C, FH, FW)
 
         dcol = np.dot(dout, self.col_W.T)
