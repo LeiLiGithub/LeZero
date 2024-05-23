@@ -39,7 +39,7 @@ class MLP(Model):
 class SimpleConvNet(Model):
     def __init__(
         self,
-        input_dim=(1,28,28),
+        input_dim=(1,28,28), # C W H
         conv_param={'filter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1},
         hidden_size=100,
         output_size=10,
@@ -52,15 +52,19 @@ class SimpleConvNet(Model):
         filter_pad = conv_param['pad']
         filter_stride = conv_param['stride']
         input_size = input_dim[1]
-        conv_output_size = (input_size - filter_size + 2*filter_pad) / filter_stride + 1
+        # 卷积层输出，长、宽相等
+        conv_output_size = (input_size + 2*filter_pad - filter_size) / filter_stride + 1
         pool_output_size = int(filter_num * (conv_output_size/2) * (conv_output_size/2))
 
         # 初始化权重
         self.params_dict = {}
+        # Conv
         self.params_dict['W1'] = weight_init_std * np.random.randn(filter_num, input_dim[0], filter_size, filter_size)
         self.params_dict['b1'] = np.zeros(filter_num)
+        # Affine
         self.params_dict['W2'] = weight_init_std * np.random.randn(pool_output_size, hidden_size)
         self.params_dict['b2'] = np.zeros(hidden_size)
+        # Affine
         self.params_dict['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
         self.params_dict['b3'] = np.zeros(output_size)
 

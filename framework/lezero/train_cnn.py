@@ -73,10 +73,10 @@ def run_train_infer():
                 # print('t', t.shape, '=', t)
 
                 loss = F.softmax_with_loss(y, t)
-                # print("loss=", loss)
+                print("loss=", loss)
 
                 acc = F.accuracy(y, t)
-                # print('accuracy=', acc)
+                print('accuracy=', acc)
 
                 model.cleargrads()
                 loss.backward()
@@ -86,7 +86,7 @@ def run_train_infer():
                 sum_acc += float(acc.data) * len(t)
 
             print('epoch: {}'.format(epoch + 1))
-            print('train loss： {:.4f}, accuracy: {:.4f}'.format(
+            print('train loss: {:.4f}, accuracy: {:.4f}'.format(
                 sum_loss / len(train_set), sum_acc / len(train_set)))
 
             # 推理
@@ -103,7 +103,7 @@ def run_train_infer():
                 sum_loss / len(test_set), sum_acc / len(test_set)))
 
         # 保存模型
-        model.save_weights(model_file)
+        # model.save_weights(model_file)
 
 
     # # 完成训练，检测自定义输入识别效果
