@@ -7,6 +7,7 @@ if '__file__' in globals():
 from lezero import datasets as D
 from lezero import MLP
 from lezero import np
+from lezero import functions as F
 
 
 # 打印用户输入
@@ -24,12 +25,13 @@ def infer_user_input(user_input):
     # 用np.array将java.jarray('I')转为nparray
     input_data = np.array(user_input)
 
-    model_file_name = 'mlp_v2.npz'
+    model_file_name = 'mlp_v4.npz'
     model_file_path = os.path.join(os.path.dirname(__file__), '..', model_file_name)
     
     hidden_size = 1000
-    model = MLP((hidden_size, 10))
-
+    # model = MLP((hidden_size, 10))
+    model = MLP((hidden_size, hidden_size, 10), activation=F.relu)
+    
     if os.path.exists(model_file_path):
         model.load_weights(model_file_path)
         print('load finish:', model_file_path)
@@ -44,11 +46,12 @@ def infer_user_input(user_input):
 
 def run_inference(input_idx):
     print(os.path.dirname(__file__))
-    model_file_name = 'mlp_v2.npz'
+    model_file_name = 'mlp_v4.npz'
     model_file_path = os.path.join(os.path.dirname(__file__), '..', model_file_name)
     
     hidden_size = 1000
-    model = MLP((hidden_size, 10))
+    # model = MLP((hidden_size, 10))
+    model = MLP((hidden_size, hidden_size, 10), activation=F.relu)
 
     if os.path.exists(model_file_path):
         model.load_weights(model_file_path)
@@ -67,5 +70,5 @@ def run_inference(input_idx):
     label_data = train_set.label[input_idx]
     print('label=', label_data)
 
-# if not is_android:
-    # run_inference(415)
+
+# run_inference(415)

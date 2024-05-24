@@ -272,7 +272,7 @@ class ReLU(Function):
         return gx
         
 def relu(x):
-    return ReLU(x)
+    return ReLU()(x)
 
 # 精度计算
 def accuracy(y, t):

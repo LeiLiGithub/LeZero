@@ -34,7 +34,7 @@ def load_one_data(data_idx):
 def run_train_infer():
     print('run_train_infer...')
 
-    model_file = os.path.join(os.path.dirname(__file__), '..', 'mlp_v2.npz')
+    model_file = os.path.join(os.path.dirname(__file__), '..', 'mlp_v5.npz')
     
     skip_train = 0
 
@@ -48,8 +48,11 @@ def run_train_infer():
     train_loader = DataLoader(train_set, batch_size)
     test_loader = DataLoader(test_set, batch_size, shuffle=False)
 
-    model = MLP((hidden_size, 10))
-    optimizer = optimizers.SGD().setup(model)
+    # model = MLP((hidden_size, 10))
+    # optimizer = optimizers.SGD().setup(model)
+
+    model = MLP((hidden_size, hidden_size, 10), activation=F.relu)
+    optimizer = optimizers.Adam().setup(model)
 
     if os.path.exists(model_file):
         model.load_weights(model_file)
@@ -120,5 +123,6 @@ def run_train_infer():
     label_data = train_set.label[input_idx]
     print('label=', label_data)
 
-print_data_in_console()
+# print_data_in_console()
 # load_one_data(1)
+run_train_infer()
